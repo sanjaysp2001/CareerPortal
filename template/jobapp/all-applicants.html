@@ -28,9 +28,7 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Job Title</th>
-                                    <th>Applied Date</th>
-                                    <th>View </th>
-                        
+                                    <th>Applied Date</th>                        
                                 </tr>
                             </thead>
                             <tbody>
@@ -38,22 +36,16 @@
                         {{ applicant.get_total_applicant }}
 
                                 <tr>
-                                    <td class="text-center"><a href="">{{ applicant.user.get_full_name }}</a></td     >
+                                    <td class="text-center">{{ applicant.user.get_full_name }}</</td>
                                     <td>{{ applicant.job.title }}</td>
-                                    <td>{{ applicant.timestamp }}</td>
-                                    <td>
-                                        <a class="btn btn-info btn-sm" href="{% url 'jobapp:applicant-details' applicant.user.id %}"
-                                                role="button">
-                                            Click
-                                        </a>
-                                    </td>
-
+                                    <td>{{ applicant.timestamp }}</td>                    
                                 </tr>
                                 {% endfor %}
                             </tbody>
-                        </table>
+                        </table>            
                     </div>
                 </div>
+                <a href="{% url 'jobapp:getdetails' id=jobid%}"><button type="button" class="btn btn-success" style="margin-top: 10px; position:relative; left:40%">Download Details</button></a> 
             </div>
         </div>
     </div>

@@ -60,20 +60,20 @@
             {% if user.is_authenticated and user.role == 'employee' %}
             {% is_job_already_saved job request.user as is_saved %}
             {% if is_saved %}
-            <span href="#" class="btn btn-block btn-light btn-md"><span
-                class="icon-heart-o mr-2 text-danger"></span>Saved</span>
+            <span href="#" class="btn btn-block btn-light btn-md" style="width: fit-content;"><span
+                class="icon-heart-o mr-2 text-danger"></span>Bookmarked</span>
             {% else %}
 
             <form action="{% url 'jobapp:bookmark-job' job.id %}" method="POST">
               {% csrf_token %}
               <input type="hidden" name="job" value="{{ job.id }}">
-              <input type="submit" class="btn btn-block btn-light btn-md" value="Save Job" />
+              <input type="submit" class="btn btn-block btn-light btn-lg" value="Bookmark" />
 
             </form>
 
             {% endif %}
             
-            {% elif user.role == 'employer' %}
+            {% elif user.role == 'employer' and job.company_name == user.first_name%}
             <button onclick="call_sw_alert_func('{% url 'jobapp:delete' job.id %}','{{ job.id }}','Once Deleted, You Will Not be Able To Recover This Post!')" class="btn btn-block btn-danger btn-md">Delete</button>
                                    
             {% else %}
@@ -96,7 +96,7 @@
 
             <span  class="btn btn-block btn-danger btn-md">Already Applied</span>
 
-            {% else %}
+            {% elif user.role == 'employee' %}
 
             <form action="{% url 'jobapp:apply-job' job.id %}" method="POST">
               {% csrf_token %}
@@ -106,10 +106,10 @@
             </form>
             {% endif %}
             
-          {% elif user.role == 'employer' %}
+          {% elif user.role == 'employer' and job.company_name == user.first_name %}
 
           <a href="{% url 'jobapp:edit-job' job.id %}" class="btn btn-block btn-light btn-md">Edit</a>
-            {% else %}
+          {% elif user.role == 'employee' %}
             <form action="{% url 'jobapp:apply-job' job.id %}" method="POST">
               {% csrf_token %}
               <input type="hidden" name="job" value="{{ job.id }}">
@@ -138,29 +138,22 @@
             {% is_job_already_saved job request.user as is_saved %}
             {% if is_saved %}
             <span class="btn btn-block btn-light btn-md"><span class="icon-heart-o mr-2 text-danger"></span>Already
-              Saved
-              Job</span>
+              Bookmarked</span>
             {% else %}
-
             <form action="{% url 'jobapp:bookmark-job' job.id %}" method="POST">
               {% csrf_token %}
               <input type="hidden" name="job" value="{{ job.id }}">
-              <input type="submit" class="btn btn-block btn-light btn-md" value="Save" />
-
+              <input type="submit" class="btn btn-block btn-light btn-md" value="Bookmark" />
             </form>
-
             {% endif %}
 
-            {% elif user.role == 'employer' %}
-            <button onclick="call_sw_alert_func('{% url 'jobapp:delete' job.id %}','{{ job.id }}','Once Deleted, You Will Not be Able To Recover This Post!')" class="btn btn-block btn-danger btn-md">Delete</button>
-                                   
-            {% else %}
-
+            {% elif user.role == 'employer' and job.company_name == user.first_name  %}
+            <button onclick="call_sw_alert_func('{% url 'jobapp:delete' job.id %}','{{ job.id }}','Once Deleted, You Will Not be Able To Recover This Post!')" class="btn btn-block btn-danger btn-md">Delete</button>                              
+            {%elif user.role == 'employee'%}
             <form action="{% url 'jobapp:bookmark-job' job.id %}" method="POST">
               {% csrf_token %}
               <input type="hidden" name="job" value="{{ job.id }}">
-
-              <input type="submit" class="btn btn-block btn-light btn-md" value="Save" />
+              <input type="submit" class="btn btn-block btn-light btn-md" value="Bookmark" />
             </form>
 
             {% endif %}
@@ -172,7 +165,7 @@
           <div class="col-6">
             <span class="btn btn-block btn-danger btn-md">Already Applied</span>
           </div>
-          {% else %}
+          {% elif user.role == 'employee' %}
           <div class="col-6">
             <form action="{% url 'jobapp:apply-job' job.id %}" method="POST">
               {% csrf_token %}
@@ -183,13 +176,13 @@
           </div>
           {% endif %}
 
-          {% elif user.role == 'employer' %}
+          {% elif user.role == 'employer' and job.company_name == user.first_name %}
           <div class="col-6">
 
             <a href="{% url 'jobapp:edit-job' job.id %}" class="btn btn-block btn-light btn-md">Edit</a>
           </div>
 
-          {% else %}
+          {% elif user.role == 'employee' %}
           <div class="col-6">
             <form action="{% url 'jobapp:apply-job' job.id %}" method="POST">
               {% csrf_token %}

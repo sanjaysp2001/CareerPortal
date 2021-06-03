@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-
+from phonenumber_field.modelfields import PhoneNumberField
 from account.managers import CustomUserManager
 
 JOB_TYPE = (
@@ -20,8 +20,10 @@ class User(AbstractUser):
                               error_messages={
                                   'unique': "A user with that email already exists.",
                               })
+    phone = PhoneNumberField(default='+000000000000')
     role = models.CharField(choices=ROLE,  max_length=10)
     gender = models.CharField(choices=JOB_TYPE, max_length=1)
+    #resume = models.FileField(upload_to='documents', blank='True')
 
 
     USERNAME_FIELD = "email"

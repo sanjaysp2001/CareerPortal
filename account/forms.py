@@ -16,6 +16,7 @@ class EmployeeRegistrationForm(UserCreationForm):
         self.fields['password1'].label = "Password :"
         self.fields['password2'].label = "Confirm Password :"
         self.fields['email'].label = "Email :"
+        self.fields['phone'].label = 'Phone Number:'
         self.fields['gender'].label = "Gender :"
 
         self.fields['first_name'].widget.attrs.update(
@@ -33,6 +34,11 @@ class EmployeeRegistrationForm(UserCreationForm):
                 'placeholder': 'Enter Email',
             }
         )
+        self.fields['phone'].widget.attrs.update(
+            {
+                'placeholder': 'eg:+911234567890',
+            }
+        )
         self.fields['password1'].widget.attrs.update(
             {
                 'placeholder': 'Enter Password',
@@ -48,7 +54,7 @@ class EmployeeRegistrationForm(UserCreationForm):
 
         model=User
 
-        fields = ['first_name', 'last_name', 'email', 'password1', 'password2', 'gender']
+        fields = ['first_name', 'last_name', 'email','phone', 'password1', 'password2', 'gender']
 
     def clean_gender(self):
         gender = self.cleaned_data.get('gender')
@@ -161,7 +167,12 @@ class EmployeeProfileEditForm(forms.ModelForm):
                 'placeholder': 'Enter Last Name',
             }
         )
+        self.fields['phone'].widget.attrs.update(
+            {
+                'placeholder': 'eg:+911234567890'
+            }
+        )
 
     class Meta:
         model = User
-        fields = ["first_name", "last_name", "gender"]
+        fields = ["first_name", "last_name","phone", "gender"]

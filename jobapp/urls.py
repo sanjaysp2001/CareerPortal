@@ -1,6 +1,7 @@
 from django.urls import path
 from jobapp import views
 
+
 app_name = "jobapp"
 
 
@@ -22,6 +23,6 @@ urlpatterns = [
     path('dashboard/employer/close/<int:id>/', views.make_complete_job_view, name='complete'),
     path('dashboard/employer/delete/<int:id>/', views.delete_job_view, name='delete'),
     path('dashboard/employee/delete-bookmark/<int:id>/', views.delete_bookmark_view, name='delete-bookmark'),
-
+    path('dashboard/employer/job/<int:id>/applicants/getdetails', views.download_applicants_view, name='getdetails'),
 
 ]

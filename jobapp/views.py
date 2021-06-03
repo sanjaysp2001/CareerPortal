@@ -5,9 +5,9 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
-from django.http import Http404, HttpResponseRedirect, JsonResponse
+from django.http import Http404, HttpResponseRedirect, JsonResponse,HttpResponse
 from django.core.serializers import serialize
-
+import csv
 
 from account.models import User
 from jobapp.forms import *
@@ -291,10 +291,26 @@ def all_applicants_view(request, id):
 
     context = {
 
-        'all_applicants': all_applicants
+        'all_applicants': all_applicants,
+        'jobid': id,
     }
 
     return render(request, 'jobapp/all-applicants.html', context)
+
+
+@login_required(login_url=reverse_lazy('account:login'))
+@user_is_employer
+def download_applicants_view(request, id):
+
+    response = HttpResponse(content_type='text/csv')  
+    response['Content-Disposition'] = 'attachment; filename="details.csv"'   
+    all_applicants = Applicant.objects.filter(job=id)
+    writer = csv.writer(response) 
+    writer.writerow(['Name','Email','Contact No','Job','Applied Time']) 
+    for applicant in all_applicants:  
+        writer.writerow([applicant.user.get_full_name(),applicant.user.email,str(applicant.user.phone),applicant.job.title,applicant.timestamp.date()])  
+    return response  
+
 
 
 @login_required(login_url=reverse_lazy('account:login'))
@@ -343,7 +359,7 @@ def job_bookmark_view(request, id):
                 instance.save()
 
                 messages.success(
-                    request, 'You have successfully save this job!')
+                    request, 'You have successfully bookmarked this job!')
                 return redirect(reverse("jobapp:single-job", kwargs={
                     'id': id
                 }))
