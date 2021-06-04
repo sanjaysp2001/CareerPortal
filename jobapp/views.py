@@ -306,9 +306,9 @@ def download_applicants_view(request, id):
     response['Content-Disposition'] = 'attachment; filename="details.csv"'   
     all_applicants = Applicant.objects.filter(job=id)
     writer = csv.writer(response) 
-    writer.writerow(['Name','Email','Contact No','Job','Applied Time']) 
+    writer.writerow(['Name','Email','Contact No','Job','Resume Link','Linkedin','Applied Time']) 
     for applicant in all_applicants:  
-        writer.writerow([applicant.user.get_full_name(),applicant.user.email,str(applicant.user.phone),applicant.job.title,applicant.timestamp.date()])  
+        writer.writerow([applicant.user.get_full_name(),applicant.user.email,str(applicant.user.phone),applicant.job.title,applicant.user.resumelink,applicant.user.linkedinaccount,applicant.timestamp.date()])  
     return response  
 
 

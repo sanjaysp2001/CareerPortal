@@ -23,6 +23,8 @@ class User(AbstractUser):
     phone = PhoneNumberField(default='+000000000000')
     role = models.CharField(choices=ROLE,  max_length=10)
     gender = models.CharField(choices=JOB_TYPE, max_length=1)
+    linkedinaccount = models.CharField(blank=True,max_length=100)
+    resumelink = models.CharField(blank=False,max_length=100)
     #resume = models.FileField(upload_to='documents', blank='True')
 
 

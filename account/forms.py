@@ -17,6 +17,8 @@ class EmployeeRegistrationForm(UserCreationForm):
         self.fields['password2'].label = "Confirm Password :"
         self.fields['email'].label = "Email :"
         self.fields['phone'].label = 'Phone Number:'
+        self.fields['resumelink'].label = 'Link to your Resume:'
+        self.fields['linkedinaccount'].label = 'Enter your LinkedIn Account details:(optional)'
         self.fields['gender'].label = "Gender :"
 
         self.fields['first_name'].widget.attrs.update(
@@ -39,6 +41,16 @@ class EmployeeRegistrationForm(UserCreationForm):
                 'placeholder': 'eg:+911234567890',
             }
         )
+        self.fields['linkedinaccount'].widget.attrs.update(
+            {
+                'placeholder': 'https://linkedin.com/in/<your-account-id>',
+            }
+        )
+        self.fields['resumelink'].widget.attrs.update(
+            {
+                'placeholder': 'Enter or paste the link for your resume',
+            }
+        )           
         self.fields['password1'].widget.attrs.update(
             {
                 'placeholder': 'Enter Password',
@@ -54,7 +66,7 @@ class EmployeeRegistrationForm(UserCreationForm):
 
         model=User
 
-        fields = ['first_name', 'last_name', 'email','phone', 'password1', 'password2', 'gender']
+        fields = ['first_name', 'last_name', 'email','phone','resumelink','linkedinaccount','password1', 'password2', 'gender']
 
     def clean_gender(self):
         gender = self.cleaned_data.get('gender')
@@ -172,7 +184,17 @@ class EmployeeProfileEditForm(forms.ModelForm):
                 'placeholder': 'eg:+911234567890'
             }
         )
+        self.fields['resumelink'].widget.attrs.update(
+            {
+                'placeholder': 'Enter or paste a link for your resume'
+            }
+        )         
+        self.fields['linkedinaccount'].widget.attrs.update(
+            {
+                'placeholder': 'https://linkedin.com/in/<your-account-id>'
+            }
+        )        
 
     class Meta:
         model = User
-        fields = ["first_name", "last_name","phone", "gender"]
+        fields = ["first_name", "last_name","phone","resumelink","linkedinaccount", "gender"]

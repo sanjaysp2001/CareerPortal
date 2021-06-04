@@ -78,12 +78,12 @@
                                    
             {% else %}
 
-            <form action="{% url 'jobapp:bookmark-job' job.id %}" method="POST">
+            <!-- <form action="{% url 'jobapp:bookmark-job' job.id %}" method="POST">
               {% csrf_token %}
               <input type="hidden" name="job" value="{{ job.id }}">
 
               <input type="submit" class="btn btn-block btn-light btn-md" value="Save" />
-            </form>
+            </form> -->
 
             {% endif %}
 
